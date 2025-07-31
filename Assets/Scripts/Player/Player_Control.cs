@@ -15,21 +15,22 @@ public class Player_Control : MonoBehaviour
     private Quaternion targetRotation;
     private bool isMoving;
 
-    void Awake()
+  void Awake()
+{
+    rigidBody = GetComponent<Rigidbody>();
+    capsuleCollider = GetComponent<CapsuleCollider>();
+    animator = GetComponentInChildren<Animator>();
+
+    if (animator == null)
     {
-        rigidBody = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
-
-        if (animator == null)
-        {
-            Debug.LogWarning("Animator not found!");
-        }
-        else
-        {
-            Debug.Log("Animator assigned automatically.");
-
-        }
+        Debug.LogWarning("Animator not found!");
     }
+    else
+    {
+        Debug.Log("Animator assigned");
+    }
+}
+
 
 
     void FixedUpdate()
