@@ -8,7 +8,9 @@ public class Player_Control : MonoBehaviour
   public Animator animator;
 
     Rigidbody rigidBody;
+    CapsuleCollider capsuleCollider;
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float rotationSpeed = 2f;
 
 
     void Awake()
@@ -49,6 +51,40 @@ else
         Debug.Log(movement);
     }
 
+    public void Rotate()
+    {
+        
+    }
+
+   private bool IsGrounded()
+    {
+        float extraAtBottomCapsuleHeight = 0.15f; // Buffer distance below the collider to avoid missing the ground.
+        float groundRadius = 0.3f; //Radius of the sphere used in the checks.
+
+        RaycastHit raycastHit;
+
+        //casts a sphere  downward from the center of the capsule to check for ground beneath;
+        bool isHit = Physics.SphereCast(
+            capsuleCollider.bounds.center, //Starting point : center of the collider
+            groundRadius, //Radius of Sphere
+            Vector3.down, //Direction of the cast (straight down)
+            out raycastHit, //Output teh hit Info
+            capsuleCollider.bounds.extents.y + extraAtBottomCapsuleHeight //Distance to check
+            );
+
+        Color rayColor = isHit ? Color.green : Color.red;
+
+        //Visualize the the ray in the scene for debugging purposes.
+        Debug.DrawRay(
+            capsuleCollider.bounds.center,
+            Vector3.down * (capsuleCollider.bounds.extents.y + extraAtBottomCapsuleHeight),
+            rayColor,
+            1f
+        );
+        return isHit;
+    }
+
+   
     void HandleMovement()
     {
         Vector3 currenPosition = rigidBody.position;
