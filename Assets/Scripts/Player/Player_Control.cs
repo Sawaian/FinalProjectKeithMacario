@@ -12,8 +12,11 @@ public class Player_Control : MonoBehaviour
     CapsuleCollider capsuleCollider;
     [SerializeField] float moveSpeed = 2.94f;
     [SerializeField] float rotationSpeed = 7.33f;
+    public Transform playerObj;
     private Quaternion targetRotation;
     private bool isMoving;
+
+    public Transform cameraTransform;
 
   void Awake()
 {
@@ -57,18 +60,25 @@ public class Player_Control : MonoBehaviour
 
   
     
-    public void HandleRotate(Vector3 moveDirection)
+public void HandleRotate(Vector3 moveDirection)
+{
+    if (isMoving && moveDirection.sqrMagnitude > 0.01f)
     {
-        if (isMoving)
+        // Flatten direction and normalize
+        Vector3 flatDir = new Vector3(moveDirection.x, 0, moveDirection.z).normalized;
+
+        // Prevent flipping: only rotate when angle is not too extreme
+        if (Vector3.Dot(playerObj.forward, flatDir) > -0.95f)
         {
-             targetRotation = Quaternion.LookRotation(moveDirection);
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            rotationSpeed * Time.fixedDeltaTime
-        );
+            Quaternion targetRotation = Quaternion.LookRotation(flatDir);
+            playerObj.rotation = Quaternion.Slerp(
+                playerObj.rotation,
+                targetRotation,
+                rotationSpeed * Time.fixedDeltaTime
+            );
         }
     }
+}
 
 
 
@@ -77,8 +87,22 @@ public class Player_Control : MonoBehaviour
         //Previously I passed newPosition. That was an error. It must be moveDirection. Where
         //The character will go versus where it will be at upon completion. 
 
+        Vector3 camForward = cameraTransform.forward;
+            camForward.y = 0;
+            camForward.Normalize();
+
+            Vector3 camRight = cameraTransform.right;
+            camRight.y = 0;
+            camRight.Normalize();
+
+            Vector3 moveDirection = camForward * movement.y + camRight * movement.x;
+
+            if (moveDirection.magnitude > 1f)
+            moveDirection.Normalize();
+
+
+
         Vector3 currenPosition = rigidBody.position;
-        Vector3 moveDirection = new Vector3(movement.x, 0f, movement.y);
 
         //Vector 1 + Vector 2 * a scalar. 
         Vector3 newPosition = currenPosition + moveDirection * (moveSpeed * Time.fixedDeltaTime);
