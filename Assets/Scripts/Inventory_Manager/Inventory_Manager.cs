@@ -12,6 +12,11 @@ public class Inventory_Manager : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+    void Awake()
+    {
+        inventory.SetActive(false);
+        isActive = false;
+    }
     void Update()
     {
         CloseInventory();

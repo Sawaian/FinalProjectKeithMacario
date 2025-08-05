@@ -6,6 +6,7 @@ public class Player_Control : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] float moveSpeed = 2.94f;
     [SerializeField] float rotationSpeed = 7.33f;
+    
 
     [Header("References")]
     public Animator animator;
@@ -22,30 +23,22 @@ public class Player_Control : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
 
+        if (cameraTransform == null)
+        cameraTransform = GameObject.Find("Main Gameplay Camera").transform;
+
         if (animator != null)
             Debug.Log("Animator assigned");
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+        public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
         Debug.Log($"Movement input received: {movementInput}");
     }
 
+
     void FixedUpdate()
     {
-        Vector3 moveDirection = GetCameraRelativeDirection();
-        HandleMovement(moveDirection);
-    }
-
-    Vector3 GetCameraRelativeDirection()
-    {
-        if (cameraTransform == null)
-        {
-            Debug.LogWarning("Camera transform not assigned.");
-            return Vector3.zero;
-        }
-
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
         forward.y = 0f;
@@ -53,33 +46,27 @@ public class Player_Control : MonoBehaviour
         forward.Normalize();
         right.Normalize();
 
-        return (forward * movementInput.y + right * movementInput.x).normalized;
-    }
+        Vector3 moveDirection = forward * movementInput.y + right * movementInput.x;
+        Vector3 newPosition = rigidBody.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
+        rigidBody.MovePosition(newPosition);
+        isMoving = true;
 
-    void HandleMovement(Vector3 moveDirection)
-    {
-        if (moveDirection.sqrMagnitude > 0.001f)
+        // Rotation
+        if (shouldFaceMovedirection && moveDirection.sqrMagnitude > 0.001f)
         {
-            Vector3 newPosition = rigidBody.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
-            rigidBody.MovePosition(newPosition);
-            isMoving = true;
-
-            if (shouldFaceMovedirection)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                playerObj.rotation = Quaternion.Slerp(
-                    playerObj.rotation,
-                    targetRotation,
-                    rotationSpeed * Time.fixedDeltaTime
-                );
-            }
-        }
-        else
-        {
-            isMoving = false;
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+            if (animator != null)
+        animator.SetFloat("Speed", isMoving ? 1f : 0f);
         }
 
-        if (animator != null)
-            animator.SetFloat("Speed", isMoving ? 1f : 0f); 
-    }
+         
 }
+    }
+
+    
+
+
+    // Animator
+   
+
