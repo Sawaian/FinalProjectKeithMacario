@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,10 +13,6 @@ public class Tile_Manager : MonoBehaviour
     public Dictionary<Vector3Int, Tile> tileMap;
 
     float tileSize = 3f;
-
-
-
-    Tile tile;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -75,9 +72,4 @@ public class Tile_Manager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
