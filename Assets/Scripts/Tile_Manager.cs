@@ -9,7 +9,7 @@ public class Tile_Manager : MonoBehaviour
     [SerializeField] private int gridHeight = 0;
     [SerializeField] private Transform groundFloorsParent;
 
-    Dictionary<Vector3Int, Tile> tileMap;
+    public Dictionary<Vector3Int, Tile> tileMap;
 
     float tileSize = 3f;
 
@@ -20,6 +20,9 @@ public class Tile_Manager : MonoBehaviour
     void Start()
     {
 
+        tileMap = new Dictionary<Vector3Int, Tile>();
+
+
         for (int x = 0; x < gridWidth; x++)
         {
             for (int z = 0; z < gridLength; z++)
@@ -29,16 +32,19 @@ public class Tile_Manager : MonoBehaviour
 
                 Tile tile = tileGameObject.GetComponent<Tile>();
                 //intializes position to tile. Makes said tile walkable.
-                tile.Initialize(new Vector3Int(x, 0, z), true);
+
+                Vector3Int gridPos = new Vector3Int(x, 0, z);
+                tile.Initialize(gridPos, true);
+                tileMap.Add(gridPos, tile);
 
 
             }
         }
 
-                foreach (var kvp in tileMap)
+                foreach (var KeyValuePair in tileMap)
         {
-            Vector3Int pos = kvp.Key;
-            Tile tile = kvp.Value;
+            Vector3Int pos = KeyValuePair.Key;
+            Tile tile = KeyValuePair.Value;
 
             Vector3Int[] directions = new Vector3Int[]
             {
