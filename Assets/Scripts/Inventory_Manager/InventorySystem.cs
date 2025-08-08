@@ -10,6 +10,7 @@ using System.Linq;
 [System.Serializable]
 public class InventorySystem
 {
+    //List of generics under the InventorySlot type.
     [SerializeField] private List<InventorySlot> inventorySlots;
 
     public List<InventorySlot> InventorySlots => inventorySlots;
