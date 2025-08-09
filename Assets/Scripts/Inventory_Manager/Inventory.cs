@@ -16,9 +16,11 @@ public class Inventory : MonoBehaviour
 
     void Awake()
     {
-        playerInventory = new InventorySystem(inventorySize);
+
+         if (playerInventory == null) 
+        {
+            playerInventory = new InventorySystem(inventorySize);
+        }
+    }
     }
     
-    
-
-}
