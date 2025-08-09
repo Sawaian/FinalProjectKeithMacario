@@ -15,4 +15,6 @@ MonoBehaviour:
   id: 0
   itemName: 
   value: 0
+  Description: Basic firearm
+  MaxStackSize: 2
   icon: {fileID: 0}

@@ -15,4 +15,6 @@ MonoBehaviour:
   id: 0
   itemName: 
   value: 0
+  Description: A broken camera
+  MaxStackSize: 1
   icon: {fileID: 0}

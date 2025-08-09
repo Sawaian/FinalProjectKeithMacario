@@ -10,22 +10,25 @@ using System.Linq;
 [System.Serializable]
 public class InventorySystem
 {
-    //List of generics under the InventorySlot type.
+    //Generic list that can hold inventory Slots.
     [SerializeField] private List<InventorySlot> inventorySlots;
 
+    //We need to know how many slots are left.
+
     public List<InventorySlot> InventorySlots => inventorySlots;
+
+    //We want the public variable to have the InventorySlot list count whenever we need it.
     public int InventorySize => InventorySlots.Count;
 
-    public UnityAction<InventorySlot> OnInventorySlotChanged;
-
+    //This will populate the inventory System with slot spaces. We will need to represent this
+    //in canvas next. 
     public InventorySystem(int size)
     {
-        inventorySlots = new List<InventorySlot>(size);
-
         for (int i = 0; i < size; i++)
         {
             inventorySlots.Add(new InventorySlot());
         }
     }
+
 
 }

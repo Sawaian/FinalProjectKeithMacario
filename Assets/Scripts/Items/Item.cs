@@ -9,6 +9,5 @@ public class Item : ScriptableObject
     public int value;
     [TextArea(4, 4)]
     public string Description;
-    public int MaxStackSize;
     public Sprite icon;
 }

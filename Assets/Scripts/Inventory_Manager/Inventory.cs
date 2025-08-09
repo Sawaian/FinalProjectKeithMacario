@@ -6,9 +6,17 @@ using UnityEngine.Events;
 //project. 
 
 [System.Serializable]
+//Will be a monobehavior because we are going to attach it to an object. 
 public class Inventory : MonoBehaviour
 {
 
-    //Take the inventorySystem.
+    [SerializeField] int inventorySize = 5;
+
+    private InventorySystem playerInventory;
+
+    void Awake()
+    {
+        playerInventory = new InventorySystem(inventorySize); 
+    }
 
 }
