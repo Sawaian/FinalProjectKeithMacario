@@ -12,11 +12,13 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] int inventorySize = 5;
 
-    private InventorySystem playerInventory;
+    [SerializeField] private InventorySystem playerInventory;
 
     void Awake()
     {
-        playerInventory = new InventorySystem(inventorySize); 
+        playerInventory = new InventorySystem(inventorySize);
     }
+    
+    
 
 }

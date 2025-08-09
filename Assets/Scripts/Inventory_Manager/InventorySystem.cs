@@ -17,6 +17,8 @@ public class InventorySystem
 
     public List<InventorySlot> InventorySlots => inventorySlots;
 
+    public UnityAction<InventorySlot> OnInventorySlotChanged;
+
     //We want the public variable to have the InventorySlot list count whenever we need it.
     public int InventorySize => InventorySlots.Count;
 

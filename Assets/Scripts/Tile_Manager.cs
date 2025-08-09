@@ -8,12 +8,17 @@ public class Tile_Manager : MonoBehaviour
     [SerializeField] private int gridWidth = 10;
     [SerializeField] private int gridLength = 10;
     [SerializeField] private int gridHeight = 0;
-    [SerializeField] private Transform groundFloorsParent;
+
+    [SerializeField] private bool usePooling = true;
+    [SerializeField] private Transform tilePoolParent;
 
     public Dictionary<Vector3Int, Tile> tileMap;
 
     float tileSize = 3f;
+
+    private readonly Queue<Tile> pool = new Queue<Tile>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
 
@@ -25,7 +30,7 @@ public class Tile_Manager : MonoBehaviour
             for (int z = 0; z < gridLength; z++)
             {
                 Vector3 tilePos = new Vector3(x * tileSize, gridHeight, z * tileSize);
-                GameObject tileGameObject = Instantiate(tilePrefab, tilePos, Quaternion.identity, groundFloorsParent);
+                GameObject tileGameObject = Instantiate(tilePrefab, tilePos, Quaternion.identity, tilePoolParent);
 
                 Tile tile = tileGameObject.GetComponent<Tile>();
                 //intializes position to tile. Makes said tile walkable.
