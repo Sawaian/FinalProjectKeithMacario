@@ -10,7 +10,7 @@ using TMPro;
 public class Inventory_Manager : MonoBehaviour
 {
     [SerializeField] GameObject inventory;
-    public GameObject InventoryItem;
+    private GameObject InventoryItem;
     public Transform ItemContent;
     public static Inventory_Manager instance;
     public List<Item> Items = new List<Item>();

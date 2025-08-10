@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0a80666d21c766478254fef54e0d50b, type: 3}
   m_Name: Broken_Camera
   m_EditorClassIdentifier: 
-  id: 0
-  itemName: 
+  id: 123
+  itemName: Camera
   value: 0
   Description: A broken camera
   icon: {fileID: 21300000, guid: 9a90e4dae9968cb4495a9335eebaee37, type: 3}
