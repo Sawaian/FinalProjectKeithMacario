@@ -16,5 +16,4 @@ MonoBehaviour:
   itemName: 
   value: 0
   Description: Basic firearm
-  MaxStackSize: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 33cd86c376fce5f429f41711d4c65f8e, type: 3}

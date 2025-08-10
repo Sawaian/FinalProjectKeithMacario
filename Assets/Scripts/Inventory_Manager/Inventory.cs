@@ -10,6 +10,7 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
 
+    public Item item;
     [SerializeField] int inventorySize = 5;
 
     [SerializeField] private InventorySystem playerInventory;
@@ -17,10 +18,12 @@ public class Inventory : MonoBehaviour
     void Awake()
     {
 
-         if (playerInventory == null) 
+        if (playerInventory == null)
         {
             playerInventory = new InventorySystem(inventorySize);
         }
     }
+    
+
     }
     

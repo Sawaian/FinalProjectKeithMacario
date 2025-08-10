@@ -15,6 +15,8 @@ public class InventorySystem
 
     //We need to know how many slots are left.
 
+    public Item item;
+
     public List<InventorySlot> InventorySlots => inventorySlots;
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
@@ -31,6 +33,11 @@ public class InventorySystem
             inventorySlots.Add(new InventorySlot());
         }
     }
+
+    // public void AddItem()
+    // {
+    //     inventorySlots[0] = new Item item;
+    // }
 
 
 }
