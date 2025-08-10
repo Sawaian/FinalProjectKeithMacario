@@ -2,19 +2,18 @@ using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
-
-    public Item item;
-    void PickUp()
+    public Item itemData; 
+    private void PickUp()
     {
-        Inventory_Manager.instance.AddItem(item);
-        Destroy(gameObject);
+        Inventory_Manager.instance.AddItem(itemData);
+        Destroy(gameObject); 
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-       if (collision.gameObject.CompareTag("Player"))
-    {
-        PickUp();
-    }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PickUp();
+        }
     }
 }

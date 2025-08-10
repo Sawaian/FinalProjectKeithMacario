@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   id: 234
-  itemName: Pistol
+  ItemName: Gun
   value: 0
   Description: Basic firearm
-  icon: {fileID: 21300000, guid: 33cd86c376fce5f429f41711d4c65f8e, type: 3}
+  ItemIcon: {fileID: 21300000, guid: 33cd86c376fce5f429f41711d4c65f8e, type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Broken_Camera
   m_EditorClassIdentifier: 
   id: 123
-  itemName: Camera
+  ItemName: Camera
   value: 0
   Description: A broken camera
-  icon: {fileID: 21300000, guid: 9a90e4dae9968cb4495a9335eebaee37, type: 3}
+  ItemIcon: {fileID: 21300000, guid: 9a90e4dae9968cb4495a9335eebaee37, type: 3}
