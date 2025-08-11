@@ -49,15 +49,19 @@ public class Player_Control : MonoBehaviour
         Vector3 moveDirection = forward * movementInput.y + right * movementInput.x;
         Vector3 newPosition = rigidBody.position + moveDirection * moveSpeed * Time.fixedDeltaTime;
         rigidBody.MovePosition(newPosition);
-        isMoving = true;
+
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", moveDirection.magnitude);
+        }
+
 
         // Rotation
         if (shouldFaceMovedirection && moveDirection.sqrMagnitude > 0.001f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
-            if (animator != null)
-        animator.SetFloat("Speed", isMoving ? 1f : 0f);
+
         }
 
          
