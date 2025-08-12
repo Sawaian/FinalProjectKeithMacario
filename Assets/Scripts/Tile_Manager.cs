@@ -12,11 +12,11 @@ public class Tile_Manager : MonoBehaviour
     [SerializeField] private bool usePooling = true;
     [SerializeField] private Transform tilePoolParent;
 
+    //Dictionary that store the grid position vector which acts as a key to a specific tile. Instant lookup
+    //for the AI. O(1)
     public Dictionary<Vector3Int, Tile> tileMap;
 
     float tileSize = 3f;
-
-    private readonly Queue<Tile> pool = new Queue<Tile>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
@@ -24,7 +24,7 @@ public class Tile_Manager : MonoBehaviour
 
         tileMap = new Dictionary<Vector3Int, Tile>();
 
-
+        //Generates the grid
         for (int x = 0; x < gridWidth; x++)
         {
             for (int z = 0; z < gridLength; z++)
@@ -33,6 +33,7 @@ public class Tile_Manager : MonoBehaviour
                 GameObject tileGameObject = Instantiate(tilePrefab, tilePos, Quaternion.identity, tilePoolParent);
 
                 Tile tile = tileGameObject.GetComponent<Tile>();
+
                 //intializes position to tile. Makes said tile walkable.
 
                 Vector3Int gridPos = new Vector3Int(x, 0, z);
@@ -45,6 +46,8 @@ public class Tile_Manager : MonoBehaviour
 
                 foreach (var KeyValuePair in tileMap)
         {
+
+        
             Vector3Int pos = KeyValuePair.Key;
             Tile tile = KeyValuePair.Value;
 
@@ -61,7 +64,7 @@ public class Tile_Manager : MonoBehaviour
                 new Vector3Int( 1, 0, -1),  
                 new Vector3Int(-1, 0, -1),  
             };
-
+                //Creating the edges for a graph.
             foreach (Vector3Int dir in directions)
             {
                 Vector3Int neighborPos = pos + dir;

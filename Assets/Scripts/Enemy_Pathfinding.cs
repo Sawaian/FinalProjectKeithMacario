@@ -41,6 +41,13 @@ public class Enemy_Pathfinding : MonoBehaviour
                 Debug.LogWarning("Destination tile is not walkable!");
                 yield break;
             }
+            //Big mistake here. Walls sit ontop of tiles. So the walls will not
+            //be considered for if a portion of the floor is walkable. 
+            //This gives the AI the okay to pursue and bump into a wall.
+            //Big issues for a longer project. But this would be better if
+            //floor objects were generated or planned better ahead of time with
+            //wall objects. Could have used a compare layer for walls with a function
+            //not enough time.
 
             FindPath(character.gameObject, destinationTile);
         }
