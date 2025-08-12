@@ -13,7 +13,7 @@ public class Enemy_Pathfinding : MonoBehaviour
     List<Tile> openSet = new List<Tile>();
     HashSet<Tile> closedSet = new HashSet<Tile>();
 
-    //coroutines. M
+    //coroutines. 
     private IEnumerator Start()
     {
         character = GetComponent<Character>();
