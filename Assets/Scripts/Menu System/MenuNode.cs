@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 
+
 public class MenuNode
 {
     public string Title;
     public List<MenuNode> Items = new List<MenuNode>();
-    public Func<string> LabelFunc;   
-    public Action OnSelect;   
+    public Func<string> LabelFunc;  
+    public Action OnSelect;         
 
     public bool IsLeaf => OnSelect != null;
 
@@ -14,7 +15,9 @@ public class MenuNode
 
     public string GetLabel() => LabelFunc != null ? LabelFunc() : Title;
 
-    public void AddChild(MenuNode child) => Items.Add(child);
+    public void AddChild(MenuNode child) {
+        Items.Add(child);
+    } 
 
     public void AddLeaf(Func<string> label, Action onSelect)
     {
