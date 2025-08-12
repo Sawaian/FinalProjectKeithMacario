@@ -5,6 +5,9 @@ public class ItemQuickSwap : MonoBehaviour
 {
     [SerializeField] private string item1 = "gun";
     [SerializeField] private string item2 = "axe";
+     EnemyHealth enemyHealth = new EnemyHealth();
+
+
     
     private Stack<string> itemStack;
 
@@ -13,22 +16,25 @@ public class ItemQuickSwap : MonoBehaviour
         itemStack = new Stack<string>();
         itemStack.Push(item1);
         itemStack.Push(item2);
+       
     }
 
-    public void SwapItems()
+    public void Attack()
     {
-        if (itemStack.Count == 2)
-        {
-            string tempItem1 = itemStack.Pop();
-            string tempItem2 = itemStack.Pop();
 
-            itemStack.Push(tempItem2);
-            itemStack.Push(tempItem1);
+        enemyHealth.EnemyHit();
+        // if (itemStack.Count == 2)
+        // {
+        //     string tempItem1 = itemStack.Pop();
+        //     string tempItem2 = itemStack.Pop();
 
-            
-            string[] stackArray = itemStack.ToArray();
-            Debug.Log("Items swapped. Current stack: " + stackArray[1] + " First: " + stackArray[0] + " Second: ");
-        }
+        //     itemStack.Push(tempItem2);
+        //     itemStack.Push(tempItem1);
+
+
+        //     string[] stackArray = itemStack.ToArray();
+        //     Debug.Log("Items swapped. Current stack: " + stackArray[1] + " First: " + stackArray[0] + " Second: ");
+        // }
     }
 
     // Update is called once per frame
@@ -36,7 +42,7 @@ public class ItemQuickSwap : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            SwapItems();
+            Attack();
         }
     }
 }
