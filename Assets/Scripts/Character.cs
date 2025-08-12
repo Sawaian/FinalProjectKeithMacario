@@ -52,8 +52,8 @@ public class Character : MonoBehaviour
         var pathfinder = GetComponent<Enemy_Pathfinding>();
         if (pathfinder && pathfinder.targetObject)
         {
-            Vector3 t = pathfinder.targetObject.transform.position;
-            var tgtGrid = new Vector3Int(Mathf.RoundToInt(t.x / tileSize), 0, Mathf.RoundToInt(t.z / tileSize));
+            Vector3 target = pathfinder.targetObject.transform.position;
+            var tgtGrid = new Vector3Int(Mathf.RoundToInt(target.x / tileSize), 0, Mathf.RoundToInt(target.z / tileSize));
             if (tgtGrid != lastTargetGridPos && tileManager && tileManager.tileMap.TryGetValue(tgtGrid, out Tile tile))
             {
                 pathfinder.FindPath(gameObject, tile);

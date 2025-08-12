@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -13,15 +14,19 @@ public class SettingsMenu : MonoBehaviour
     public Button backButton;
  
     Stack<MenuNode> nav = new Stack<MenuNode>();
-    MenuNode current;
+    MenuNode currentNode;
+
 
     void Awake()
     {
-        current = BuildTree();
-        Render();
-        if (backButton) backButton.onClick.AddListener(GoBack);
-    }
 
+        currentNode = BuildTree();
+        Render();
+        if (backButton)
+        {
+            backButton.onClick.AddListener(GoBack);
+        }
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape)) GoBack();
@@ -31,13 +36,16 @@ public class SettingsMenu : MonoBehaviour
 {
     if (nav.Count > 0)
     {
-        current = nav.Pop();
+        currentNode = nav.Pop();
         Render();
     }
     else
     {
-        if (Inventory_Manager.instance != null)
+            if (Inventory_Manager.instance != null)
+            {
             Inventory_Manager.instance.CloseSettings();
+            }
+            
         else
         {
             Time.timeScale = 1f;
@@ -51,11 +59,11 @@ public class SettingsMenu : MonoBehaviour
     void Render()
     {
         foreach (Transform child in listRoot) Destroy(child.gameObject);
-        if (headerText) headerText.text = current.Title;
+        if (headerText) headerText.text = currentNode.Title;
         //really cool
-        for (int i = 0; i < current.Items.Count; i++)
+        for (int i = 0; i < currentNode.Items.Count; i++)
         {
-            var item = current.Items[i];
+            var item = currentNode.Items[i];
             var button = Instantiate(buttonPrefab, listRoot);
             var label = button.GetComponentInChildren<TextMeshProUGUI>();
             if (label) label.text = item.GetLabel();
@@ -66,7 +74,7 @@ public class SettingsMenu : MonoBehaviour
 
     void OnItemPressed(int index)
     {
-        var item = current.Items[index];
+        var item = currentNode.Items[index];
         if (item.IsLeaf)
         {
             item.OnSelect?.Invoke();
@@ -74,8 +82,8 @@ public class SettingsMenu : MonoBehaviour
         }
         else
         {
-            nav.Push(current);
-            current = item;
+            nav.Push(currentNode);
+            currentNode = item;
             Render();
         }
     }
@@ -84,60 +92,14 @@ public class SettingsMenu : MonoBehaviour
     {
         var root = new MenuNode("Settings");
 
-        //adjusts volume. Callback function.
+        //adjusts volume. Callback function. Rebuild with proper implementation.
         var audio = new MenuNode("Audio");
-        audio.AddLeaf(
-            () => $"Master Volume: {Mathf.RoundToInt(Settings.MasterVolume * 100)}%",
-            () => Settings.CycleMasterVolume()
-        );
 
         //adjusts video size
         var video = new MenuNode("Video");
-        video.AddLeaf(
-            () => $"Fullscreen: {(Screen.fullScreen ? "On" : "Off")}",
-            () => Screen.fullScreen = !Screen.fullScreen
-        );
-
 
         root.AddChild(audio);
         root.AddChild(video);
         return root;
-    }
-
-    static class Settings
-    {
-        public static float MasterVolume
-        {
-            get => PlayerPrefs.GetFloat("MasterVolume", 1f);
-            set { PlayerPrefs.SetFloat("MasterVolume", value); AudioListener.volume = value; }
-        }
-
-        public static void CycleMasterVolume()
-        {
-            float[] steps = { 0f, 0.5f, 1f };
-            MasterVolume = GetNextPreset(MasterVolume, steps);
-        }
-
-        static float GetNextPreset(float currentValue, float[] presets)
-        {
-            if (presets == null || presets.Length == 0) return currentValue;
-
-            int closestPresetIndex = 0;
-            float smallestGap = Mathf.Abs(currentValue - presets[0]);
-
-            for (int presetIndex = 1; presetIndex < presets.Length; presetIndex++)
-            {
-                float gap = Mathf.Abs(currentValue - presets[presetIndex]);
-                if (gap < smallestGap)
-                {
-                    smallestGap = gap;
-                    closestPresetIndex = presetIndex;
-                }
-            }
-
-
-            int nextPresetIndex = (closestPresetIndex + 1) % presets.Length;
-            return presets[nextPresetIndex];
-        }
     }
 }
